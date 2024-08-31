@@ -100,7 +100,9 @@ class Renderer:
         # return False
         return fallne_indexes
 
-    def __draw_fallen_label(self, image: np.ndarray, pose: list[list[int]], fallen_indexes: list[int]):
+    def __draw_fallen_label(
+        self, image: np.ndarray, pose: list[list[int]], fallen_indexes: list[int]
+    ):
         # 人の中心座標を計算する
         def center_of_person(person) -> tuple[int, int]:
             x = 0
