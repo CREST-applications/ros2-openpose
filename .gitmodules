@@ -1,0 +1,3 @@
+[submodule "src/pymec"]
+	path = src/pymec
+	url = https://git.dolylab.cc/mec/pymec.git

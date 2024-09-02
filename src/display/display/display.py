@@ -31,6 +31,8 @@ class Display(Node):
         self.__threshold = config.threshold
         self.__scale = config.scale
 
+        self.get_logger().info("Display Node Initialized")
+
     def __camera_callback(self, image: Image):
         cv_image = self.__cv_bridge.imgmsg_to_cv2(image)
 

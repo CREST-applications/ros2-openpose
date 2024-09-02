@@ -8,6 +8,8 @@ RUN apt-get update && apt-get install -y \
     libopencv-dev
 
 RUN pip3 install \
+    uv \
     opencv-python \
     cv_bridge \
-    pydantic
+    pydantic \
+    janus

@@ -10,7 +10,7 @@ setup(
         ("share/ament_index/resource_index/packages", ["resource/" + package_name]),
         ("share/" + package_name, ["package.xml"]),
     ],
-    install_requires=["setuptools"],
+    install_requires=["setuptools", "opencv-python", "pydantic"],
     zip_safe=True,
     maintainer="root",
     maintainer_email="jme.co.jp@gmail.com",
