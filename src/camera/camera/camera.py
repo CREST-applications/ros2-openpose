@@ -7,14 +7,14 @@ import cv2
 
 class Config(BaseModel):
     camera_topic: str = "/camera"
-    fps: int = 10
+    fps: int = 20
     device: int = 0
 
 
 class Camera(Node):
     def __init__(self, config: Config):
         super().__init__("camera")
-        self.__pub = self.create_publisher(Image, config.camera_topic, 1)
+        self.__pub = self.create_publisher(Image, config.camera_topic, 10)
         self.create_timer(1 / config.fps, self.__callback)
 
         self.__capture = cv2.VideoCapture(config.device)
@@ -30,6 +30,8 @@ class Camera(Node):
             return
 
         # Convert the frame and publish it
+        frame = cv2.resize(frame, None, fx=0.5, fy=0.5)
+        # frame = cv2.resize(frame, None, fx=2.0, fy=2.0)
         image = self.__cv_bridge.cv2_to_imgmsg(frame)
 
         self.__pub.publish(image)

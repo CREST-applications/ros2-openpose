@@ -25,12 +25,13 @@ async def invoke(ctx: Ctx, job_id: str):
     job_info = await client.request(
         api.job.Info(job_id=job_id, except_="Finished", timeout=10)
     )
-    if job_info.output.data_id is None:
+    if job_info.output is None:
         return
 
     pose = await client.request(api.data.Download(data_id=job_info.output.data_id))
 
-    ctx.publisher.publish(String(data=pose.data))
+    ctx.publisher.publish(String(data=pose.data.decode()))
+    print("job finished")
 
 
 class Config(BaseModel):

@@ -31,6 +31,6 @@ class Runner:
     def enqueue(self, data):
         while self.__queue is None:
             print("Waiting for queue to be initialized")
-            time.sleep(0.5)
+            time.sleep(1)
 
         self.__queue.sync_q.put(data)

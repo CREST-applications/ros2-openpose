@@ -20,6 +20,7 @@ setup(
     entry_points={
         "console_scripts": [
             "main = pose.main:main",
+            "test = pose.test:main",
         ],
     },
 )
