@@ -30,10 +30,20 @@ class Renderer:
     ):
         self.__threshold = threshold
 
-    def draw(self, image: np.ndarray, pose: list[list[int]]):
+    def draw(self, image: np.ndarray, pose: list[list[int]], fps: float):
         fallen_indexes = self.__fallen_indexes(pose, image.shape[0])
-        self.__draw_fallen_label(image, pose, fallen_indexes)
 
+        self.__draw_line(image)
+        self.__draw_pose(image, pose, fallen_indexes)
+        self.__draw_fallen_label(image, pose, fallen_indexes)
+        self.__draw_fps(image, fps)
+
+    def __draw_pose(
+        self,
+        image: np.ndarray,
+        pose: list[list[int]],
+        fallen_indexes: list[int],
+    ):
         for index, person in enumerate(pose):
             for pair in self.POSE_PAIRS:
                 part_a_index = pair[0]
@@ -100,6 +110,18 @@ class Renderer:
         # return False
         return fallne_indexes
 
+    def __draw_line(self, image: np.ndarray):
+        """画像に線を描画する。"""
+
+        height, width, _ = image.shape
+        cv2.line(
+            image,
+            (0, int(height * self.__threshold)),
+            (width, int(height * self.__threshold)),
+            (0, 0, 255),
+            1,
+        )
+
     def __draw_fallen_label(
         self, image: np.ndarray, pose: list[list[int]], fallen_indexes: list[int]
     ):
@@ -130,3 +152,15 @@ class Renderer:
                     1,
                     cv2.LINE_AA,
                 )
+
+    def __draw_fps(self, image: np.ndarray, fps: float):
+        cv2.putText(
+            image,
+            f"FPS: {fps:.1f}",
+            (10, 20),
+            cv2.FONT_HERSHEY_SIMPLEX,
+            0.5,
+            (0, 0, 255),
+            1,
+            cv2.LINE_AA,
+        )

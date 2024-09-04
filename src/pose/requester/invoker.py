@@ -20,7 +20,7 @@ class Ctx:
 
 async def init(pub: Publisher) -> Ctx:
     # client = ClientBuilder().host("http://master.local/api/v0.5/").build()
-    client = ClientBuilder().host("http://192.168.1.20/api/v0.5/").build()
+    client = ClientBuilder().host("http://192.168.1.11/api/v0.5/").build()
     lambda_ = await client.request(
         api.lambda_.Create(data_id="1", runtime="openpose+gpu")
     )

@@ -15,7 +15,7 @@ class Ctx:
 
 async def init(pub: Publisher) -> Ctx:
     # client = ClientBuilder().host("http://master.local/api/v0.5/").build()
-    client = ClientBuilder().host("http://192.168.1.20/api/v0.5/").build()
+    client = ClientBuilder().host("http://192.168.1.11/api/v0.5/").build()
     return Ctx(client, pub)
 
 

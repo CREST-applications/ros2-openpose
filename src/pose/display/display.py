@@ -4,8 +4,9 @@ from std_msgs.msg import String
 from cv_bridge import CvBridge
 import cv2
 import json
-import numpy as np
 from pydantic import BaseModel
+from queue import Queue
+import time
 
 from .renderer import Renderer
 
@@ -28,19 +29,33 @@ class Display(Node):
 
         self.__pose_buffer: list[list[int]] = []
 
+        self.__current_fps = 0.0
+        self.__last = 0.0
+        self.__request_history = Queue(maxsize=8)
+
         self.__threshold = config.threshold
         self.__scale = config.scale
 
-        self.get_logger().info("Display Node Initialized")
+        self.get_logger().info("Initialized")
 
     def __camera_callback(self, image: Image):
         cv_image = self.__cv_bridge.imgmsg_to_cv2(image)
 
-        self.__renderer.draw(cv_image, self.__pose_buffer)
+        self.__renderer.draw(cv_image, self.__pose_buffer, self.__current_fps)
 
         cv2.imshow("Display Node", cv_image)
         cv2.waitKey(1)
 
     def __pose_callback(self, pose: String):
-        self.get_logger().info("Received: /pose")
+        self.get_logger().debug("Received: /pose")
         self.__pose_buffer = json.loads(pose.data)
+
+        # Calculate FPS
+        if self.__request_history.full():
+            self.__request_history.get()
+
+        self.__request_history.put(time.time() - self.__last)
+        self.__last = time.time()
+
+        mean = sum(self.__request_history.queue) / len(self.__request_history.queue)
+        self.__current_fps = 1 / mean

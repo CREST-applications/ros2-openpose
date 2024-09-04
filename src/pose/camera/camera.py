@@ -20,6 +20,8 @@ class Camera(Node):
         self.__capture = cv2.VideoCapture(config.device)
         self.__cv_bridge = CvBridge()
 
+        self.get_logger().info(f"Initialized with config: {config}")
+
     def __callback(self):
         # Read the frame
         has_frame, frame = self.__capture.read()
@@ -35,4 +37,4 @@ class Camera(Node):
         image = self.__cv_bridge.cv2_to_imgmsg(frame)
 
         self.__pub.publish(image)
-        self.get_logger().info("published to `/camera`")
+        self.get_logger().debug("published to `/camera`")

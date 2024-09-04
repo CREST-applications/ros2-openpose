@@ -1,4 +1,6 @@
 from setuptools import find_packages, setup
+import os
+from glob import glob
 
 package_name = "pose"
 
@@ -9,8 +11,15 @@ setup(
     data_files=[
         ("share/ament_index/resource_index/packages", ["resource/" + package_name]),
         ("share/" + package_name, ["package.xml"]),
+        (os.path.join("share", package_name), glob("launch/*launch.py")),
     ],
-    install_requires=["setuptools", "pydantic", "janus"],
+    install_requires=[
+        "setuptools",
+        "opencv-python",
+        "numpy",
+        "pydantic",
+        "cv_bridge",
+    ],
     zip_safe=True,
     maintainer="root",
     maintainer_email="jme.co.jp@gmail.com",
@@ -19,8 +28,9 @@ setup(
     tests_require=["pytest"],
     entry_points={
         "console_scripts": [
-            "main = pose.main:main",
-            "test = pose.test:main",
+            "camera = camera.main:main",
+            "display = display.main:main",
+            "requester = requester.test:main",
         ],
     },
 )
