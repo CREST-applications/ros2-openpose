@@ -16,11 +16,6 @@ import os
 from .runnner import Runner
 
 
-MAX_JOB = 12
-MAX_FPS = 30
-lock = asyncio.Lock()
-
-
 class Ctx:
     def __init__(
         self,
@@ -28,26 +23,29 @@ class Ctx:
         lambda_id: str,
         publisher: Publisher,
         logger: RcutilsLogger,
+        max_job: int,
     ):
         self.client = client
         self.lambda_id = lambda_id
         self.publisher = publisher
         self.logger = logger
         self.counter = 0
+        self.lock = asyncio.Lock()
+        self.max_job = max_job
 
 
-async def init(pub: Publisher, logger: RcutilsLogger, host: str) -> Ctx:
+async def init(pub: Publisher, logger: RcutilsLogger, host: str, max_job: int) -> Ctx:
     client = ClientBuilder().host(host).build()
     lambda_ = await client.request(
         api.lambda_.Create(data_id="1", runtime="openpose+gpu")
     )
 
-    return Ctx(client, lambda_.lambda_id, pub, logger)
+    return Ctx(client, lambda_.lambda_id, pub, logger, max_job)
 
 
 async def invoke(ctx: Ctx, image: ndarray):
-    async with lock:
-        if ctx.counter > MAX_JOB:
+    async with ctx.lock:
+        if ctx.counter > ctx.max_job:
             ctx.logger.warn("Counter reached max")
             return
 
@@ -71,13 +69,13 @@ async def invoke(ctx: Ctx, image: ndarray):
 
     pose = await client.request(api.data.Download(data_id=job_info.output.data_id))
 
-    async with lock:
+    async with ctx.lock:
         ctx.counter -= 1
 
     # ctx.logger.info("Job Finished")
     end = time.time()
     # print(f"Time: {end - start}")
-    ctx.logger.info(f"Time: {end - start}")
+    ctx.logger.info(f"Elapsed: {end - start} s")
 
     if pose.data is None or len(pose.data) == 0:
         return
@@ -89,11 +87,14 @@ class Config(BaseModel):
     camera_topic: str = "/camera"
     pose_topic: str = "/pose"
     pleiades_host: str
+    max_job: int = 10
+    max_fps: int = 30
 
 
 class Requester(Node):
     def __init__(self, config: Config):
         super().__init__("pose_requester")
+        self.__config = config
 
         self.create_subscription(Image, config.camera_topic, self.__callback, 1)
         self.__pub = self.create_publisher(String, config.pose_topic, 10)
@@ -104,6 +105,7 @@ class Requester(Node):
                 self.__pub,
                 self.get_logger(),
                 config.pleiades_host,
+                config.max_job,
             ),
             invoke,
         )
@@ -116,7 +118,7 @@ class Requester(Node):
         input = self.__bridge.imgmsg_to_cv2(msg)
         self.__runner.enqueue(input)
 
-        time.sleep(1 / MAX_FPS)
+        time.sleep(1 / self.__config.max_fps)
 
 
 def main():
