@@ -1,6 +1,7 @@
 import asyncio
 import threading
 import time
+import logging
 from janus import Queue
 from collections.abc import Awaitable, Callable
 
@@ -13,16 +14,16 @@ class Runner:
     ):
         self.__queue: Queue | None = None
         self.__ctx = None
-        self.__async_init_func = async_init_func
+        self.__init_coroutine = async_init_func
         self.__async_func = async_func
 
         threading.Thread(target=asyncio.run, args=(self.run(),), daemon=True).start()
 
     async def run(self):
         self.__queue = Queue(maxsize=16)
-        self.__ctx = await self.__async_init_func
+        self.__ctx = await self.__init_coroutine
 
-        print("Runner initialized")
+        logging.info("Runner initialized")
 
         while True:
             data = await self.__queue.async_q.get()
@@ -30,7 +31,7 @@ class Runner:
 
     def enqueue(self, data):
         while self.__queue is None:
-            print("Waiting for queue to be initialized")
+            logging.info("Waiting for queue to be initialized")
             time.sleep(1)
 
         self.__queue.sync_q.put(data)

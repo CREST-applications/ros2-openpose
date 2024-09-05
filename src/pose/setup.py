@@ -30,7 +30,7 @@ setup(
         "console_scripts": [
             "camera = camera.main:main",
             "display = display.main:main",
-            "requester = requester.test:main",
+            "requester = requester.main:main",
         ],
     },
 )

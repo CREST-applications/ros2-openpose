@@ -48,7 +48,7 @@ class Reciever(Node):
 
         self.__runner = Runner(init(self.__pub), invoke)
 
-        self.get_logger().info("Pose Reciever Node Initialized")
+        self.get_logger().info("Initialized")
 
     async def __callback(self, msg: String):
         self.get_logger().info("Received job")

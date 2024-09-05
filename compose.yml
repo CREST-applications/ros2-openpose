@@ -7,6 +7,7 @@ services:
       - ROS_DOMAIN_ID=33
       # FASTRTPS_DEFAULT_PROFILES_FILE: /tmp/fastrtps-profile.xml
       - DISPLAY=$DISPLAY
+      - PLEIADES_HOST=http://192.168.168.127:8332/api/v0.5/
     network_mode: host
     volumes:
       - .:/root/ros2_ws
