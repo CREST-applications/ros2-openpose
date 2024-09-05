@@ -16,8 +16,8 @@ import os
 from .runnner import Runner
 
 
-MAX_JOB = 4
-MAX_FPS = 10
+MAX_JOB = 12
+MAX_FPS = 30
 lock = asyncio.Lock()
 
 
