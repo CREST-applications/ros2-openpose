@@ -14,7 +14,7 @@ def generate_launch_description():
                 executable="main",
             ),
             Node(
-                package="requester",
+                package="pose",
                 executable="main",
             ),
         ]
