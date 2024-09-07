@@ -5,7 +5,8 @@ RUN echo "source /opt/ros/humble/setup.bash" >> /root/.bashrc
 
 RUN apt-get update && apt-get install -y \
     python3-pip \
-    libopencv-dev
+    libopencv-dev \
+    avahi-utils
 
 RUN pip3 install \
     uv \
