@@ -6,16 +6,16 @@ def generate_launch_description():
     return LaunchDescription(
         [
             Node(
-                package="pose",
-                executable="camera",
+                package="camera",
+                executable="main",
             ),
             Node(
-                package="pose",
-                executable="display",
+                package="display",
+                executable="main",
             ),
             Node(
-                package="pose",
-                executable="requester",
+                package="requester",
+                executable="main",
             ),
         ]
     )

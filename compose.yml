@@ -18,10 +18,10 @@ services:
       - /var/run/dbus:/var/run/dbus 
       - /var/run/avahi-daemon/socket:/var/run/avahi-daemon/socket
     working_dir: /root/ros2_ws
-    command: >
-      /bin/bash -c "
-        source /opt/ros/humble/setup.bash &&
-        colcon build --symlink-install --packages-select pose &&
-        source /root/ros2_ws/install/setup.bash &&
-        ros2 launch pose launch.py
-      "
+    # command: >
+    #   /bin/bash -c "
+    #     source /opt/ros/humble/setup.bash &&
+    #     colcon build --symlink-install --packages-select pose &&
+    #     source /root/ros2_ws/install/setup.bash &&
+    #     ros2 launch pose launch.py
+    #   "
