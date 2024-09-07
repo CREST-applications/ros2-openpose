@@ -87,7 +87,7 @@ class Config(BaseModel):
     camera_topic: str = "/camera"
     pose_topic: str = "/pose"
     pleiades_host: str
-    max_job: int = 10
+    max_job: int = 4
     max_fps: int = 30
 
 
