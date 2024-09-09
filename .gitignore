@@ -2,4 +2,3 @@ build/
 install/
 log/
 src/test
-**/__pycache__/
