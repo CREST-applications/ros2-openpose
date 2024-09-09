@@ -8,9 +8,9 @@ services:
       - ROS_DOMAIN_ID=33
       # FASTRTPS_DEFAULT_PROFILES_FILE: /tmp/fastrtps-profile.xml
       - DISPLAY=$DISPLAY
-      # - PLEIADES_HOST=http://192.168.168.127:8332/api/v0.5/
+      - PLEIADES_HOST=http://192.168.168.127:8332/api/v0.5/
       # - PLEIADES_HOST=http://tb3-sasaki.local/api/v0.5/
-      - PLEIADES_HOST=http://master.local/api/v0.5/
+      # - PLEIADES_HOST=http://master.local/api/v0.5/
     volumes:
       - .:/root/ros2_ws
       # - ./fastrtps-profile.xml:/tmp/fastrtps-profile.xml
@@ -27,5 +27,6 @@ services:
         source /opt/ros/humble/setup.bash &&
         colcon build --symlink-install &&
         source ./install/setup.bash &&
-        ros2 launch launcher launch.py
+        ros2 launch launcher without_camera_launch.py
+        # ros2 launch launcher launch.py
       "
