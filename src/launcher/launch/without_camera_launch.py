@@ -6,6 +6,12 @@ def generate_launch_description():
     return LaunchDescription(
         [
             Node(
+                package="image_transport",
+                executable="republish",
+                arguments=["raw"],
+                remappings=[("/in", "/image_raw/compressed"), ("/out", "/camera")],
+            ),
+            Node(
                 package="display",
                 executable="main",
             ),

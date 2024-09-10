@@ -13,7 +13,7 @@ def generate_launch_description():
                 package="image_transport",
                 executable="republish",
                 arguments=["raw"],
-                remappings=[("in", "/image_raw"), ("out", "/image_raw/compressed")],
+                remappings=[("/in", "/image_raw"), ("/out", "/image_raw/compressed")],
             ),
             Node(
                 package="display",
