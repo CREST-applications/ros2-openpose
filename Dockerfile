@@ -9,7 +9,8 @@ RUN apt-get update && apt-get install -y \
     avahi-utils \
     ros-humble-v4l2-camera \
     ros-humble-rqt-image-view \
-    ros-humble-image-transport
+    ros-humble-image-transport \
+    ros-humble-image-transport-plugins
 
 RUN pip3 install \
     uv \
