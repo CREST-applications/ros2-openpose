@@ -10,30 +10,19 @@ def generate_launch_description():
                 executable="v4l2_camera_node",
             ),
             Node(
-                package="image_transport",
-                executable="republish",
-                arguments=["raw"],
-                remappings=[("/in", "/image_raw"), ("/out", "/image_raw/compressed")],
+                package="proxy",
+                executable="main",
             ),
-            Node(
-                package="image_transport",
-                executable="republish",
-                arguments=["raw"],
-                remappings=[("/in", "/image_raw/compressed"), ("/out", "/camera")],
-            ),
-            # Node(
-            #     package="camera",
-            #     executable="main",
-            # ),
             Node(
                 package="display",
                 executable="main",
-                # remappings=[("/camera", "/image_raw")],
+                # remappings=[("/camera", "/proxy")],
+                remappings=[("/camera", "/delay")],
             ),
             Node(
                 package="pose",
                 executable="main",
-                # remappings=[("/camera", "/image_raw")],
+                remappings=[("/camera", "/proxy")],
             ),
         ]
     )

@@ -14,12 +14,16 @@ def generate_launch_description():
             Node(
                 package="proxy",
                 executable="main",
-            ),
+            ),            
+            # Node(
+            #     package="pose",
+            #     executable="delayer",
+            # ),
             Node(
                 package="display",
                 executable="main",
-                remappings=[("/camera", "/proxy")],
-                # remappings=[("/camera", "/delay")],
+                # remappings=[("/camera", "/proxy")],
+                remappings=[("/camera", "/delay")],
             ),
             Node(
                 package="pose",
