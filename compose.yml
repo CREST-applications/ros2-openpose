@@ -13,15 +13,16 @@ services:
       - DELAY=0.2
 
       - MAX_JOB=2
-      - POSE_FPS=13
+      - POSE_FPS=15
 
       # mec-rm
       - DISPLAY=$DISPLAY
       # - PLEIADES_HOST=http://192.168.168.127:8332/api/v0.5/
+      - PLEIADES_HOST=http://172.21.39.32:8332/api/v0.5/
       # - PLEIADES_HOST=http://tb3-sasaki.local/api/v0.5/
       # - PLEIADES_HOST=http://master.local/api/v0.5/
       # - PLEIADES_HOST=http://pleiades.local/api/v0.5/
-      - PLEIADES_HOST=http://10.255.255.4/api/v0.5/
+      # - PLEIADES_HOST=http://10.255.255.4/api/v0.5/
     volumes:
       - .:/root/ros2_ws
       # - ./fastrtps-profile.xml:/tmp/fastrtps-profile.xml
@@ -38,7 +39,7 @@ services:
         source /opt/ros/humble/setup.bash &&
         colcon build --symlink-install &&
         source ./install/setup.bash &&
-        # ros2 launch launcher without_camera_launch.py
+        ros2 launch launcher without_camera_launch.py
         # ros2 launch launcher launch.py
-        ros2 launch launcher delay_launch.py
+        # ros2 launch launcher delay_launch.py
       "

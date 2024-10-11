@@ -15,10 +15,10 @@ def generate_launch_description():
                 package="proxy",
                 executable="main",
             ),            
-            # Node(
-            #     package="pose",
-            #     executable="delayer",
-            # ),
+            Node(
+                package="pose",
+                executable="delayer",
+            ),
             Node(
                 package="display",
                 executable="main",

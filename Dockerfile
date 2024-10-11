@@ -22,5 +22,7 @@ RUN pip3 install \
 COPY ./entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
+RUN apt-get install -y curl
+
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["/bin/bash"]
