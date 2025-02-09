@@ -1,6 +1,6 @@
 [submodule "src/pymec"]
 	path = src/pymec
-	url = https://git.dolylab.cc/mec/pymec.git
+	url = https://github.com/CREST-applications/pymec.git
 [submodule "src/camera"]
 	path = src/camera
 	url = https://github.com/CREST-applications/camera-node.git
