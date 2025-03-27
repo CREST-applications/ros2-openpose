@@ -1,4 +1,4 @@
-# ROS2 Template
+# ROS2 OpenPose
 
 ## Init ROS2 Middleware
 
