@@ -12,19 +12,20 @@ def generate_launch_description():
             #     # remappings=[("/in", "/image_raw/compressed"), ("/out", "/camera")],
             # ),
             Node(
-                package="proxy",
-                executable="main",
+                package="image_transport",
+                executable="republish",
+                arguments=["compressed"],
+                remappings=[("/in/compressed", "/image_raw/compressed")],
             ),
             Node(
                 package="display",
                 executable="main",
-                remappings=[("/camera", "/proxy")],
-                # remappings=[("/camera", "/delay")],
+                remappings=[("/camera", "/image_raw/compressed")],
             ),
             Node(
                 package="pose",
                 executable="main",
-                remappings=[("/camera", "/proxy")],
+                remappings=[("/camera", "/image_raw/compressed")],
             ),
         ]
     )
