@@ -1,5 +1,5 @@
 services:
-  example:
+  ros2-openpose:
     build: .
     tty: true
     privileged: true
@@ -16,7 +16,7 @@ services:
       - DISPLAY_SCALE=1.5
 
       # requester settings
-      - PLEIADES_HOST=http://pleiades.local/api/v0.5/
+      - PLEIADES_HOST=http://localhost/api/v0.5/
       - MAX_JOB=5
       - POSE_FPS=10
       # - DELAY=0.2 # for delayer
@@ -35,7 +35,8 @@ services:
         source /opt/ros/humble/setup.bash &&
         colcon build --symlink-install &&
         source ./install/setup.bash &&
-        ros2 launch launcher without_camera.py
-        # ros2 launch launcher launch.py
+        # ros2 launch launcher without_camera.py
+        # ros2 launch launcher with_camera.py
+        ros2 launch launcher launch.py
         # ros2 launch launcher delay_launch.py
       "

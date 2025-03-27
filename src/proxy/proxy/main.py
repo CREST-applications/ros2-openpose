@@ -5,7 +5,7 @@ from sensor_msgs.msg import CompressedImage
 
 class Proxy(Node):
     def __init__(self):
-        super().__init__("pub_node")
+        super().__init__("proxy")
 
         self.__pub = self.create_publisher(CompressedImage, "/proxy", 1)
         self.create_subscription(CompressedImage, "/image_raw/compressed", self.__callback, 1)
