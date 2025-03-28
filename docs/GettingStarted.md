@@ -50,7 +50,7 @@
 
 ## Worker (Desktop-PC)
 
-1. 電源を入れて、ログインするだけです。
+1. 電源を入れて、ログインするだけで起動します。
 
    - username: `user`
    - password: `user`
