@@ -15,16 +15,16 @@ flowchart LR
     /pose_requester --> /pose
     /v4l2_camera["/v4l2_camera"] --> /image_raw/compressed
 
-     /out/compressed:::topic
-     /display:::main
-     /pose_requester:::main
-     /pose_requester:::node
-     /pose:::topic
-     /image_raw/compressed:::topic
-     /image_republisher:::main
-     /image_republisher:::node
-     /v4l2_camera:::main
-     /v4l2_camera:::node
+    /out/compressed:::topic
+    /display:::main
+    /pose_requester:::main
+    /pose_requester:::node
+    /pose:::topic
+    /image_raw/compressed:::topic
+    /image_republisher:::main
+    /image_republisher:::node
+    /v4l2_camera:::main
+    /v4l2_camera:::node
     classDef node opacity:0.9,fill:#2A0,stroke:#391,stroke-width:4px,color:#fff
     classDef action opacity:0.9,fill:#66A,stroke:#225,stroke-width:2px,color:#fff
     classDef service opacity:0.9,fill:#3B8062,stroke:#3B6062,stroke-width:2px,color:#fff
@@ -72,18 +72,18 @@ flowchart LR
     /renderer --> /rendered_image(["/rendered_image<br>sensor_msgs/msg/CompressedImage"])
     /rendered_image --> /display
 
-     /out/compressed:::topic
-     /display:::main
-     /pose_requester:::main
-     /pose_requester:::node
-     /pose:::topic
-     /image_raw/compressed:::topic
-     /image_republisher:::main
-     /image_republisher:::node
-     /v4l2_camera:::main
-     /v4l2_camera:::node
-     /renderer:::node
-     /rendered_image:::topic
+    /out/compressed:::topic
+    /display:::main
+    /pose_requester:::main
+    /pose_requester:::node
+    /pose:::topic
+    /image_raw/compressed:::topic
+    /image_republisher:::main
+    /image_republisher:::node
+    /v4l2_camera:::main
+    /v4l2_camera:::node
+    /renderer:::node
+    /rendered_image:::topic
     classDef node opacity:0.9,fill:#2A0,stroke:#391,stroke-width:4px,color:#fff
     classDef action opacity:0.9,fill:#66A,stroke:#225,stroke-width:2px,color:#fff
     classDef service opacity:0.9,fill:#3B8062,stroke:#3B6062,stroke-width:2px,color:#fff
