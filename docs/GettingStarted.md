@@ -49,4 +49,7 @@
 
 ## Worker (Desktop-PC)
 
-1. 電源を入れる。以上。ただし、MEC-RM に接続できるネットワークであること。
+1. 電源を入れて、ログインするだけです。
+
+   - username: `user`
+   - password: `user`
