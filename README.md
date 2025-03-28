@@ -1,5 +1,12 @@
 # ROS2 OpenPose
 
+## Documentation
+
+- [Getting Started](docs/GettingStarted.md)
+- [Architecture](docs/Architecture.md)
+
+The following is just a memo.
+
 ## Init ROS2 Middleware
 
 ```bash
