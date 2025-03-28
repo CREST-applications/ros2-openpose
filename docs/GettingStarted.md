@@ -17,6 +17,7 @@
     TurtleBot3 と同じネットワークの任意の端末から SSH で接続します。
 
     - hostname: `tb3-sasaki.local`
+    - username: `user`
     - password: `user`
 
    ```bash
