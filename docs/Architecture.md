@@ -31,35 +31,53 @@ flowchart LR
     classDef topic opacity:0.9,fill:#852,stroke:#CCC,stroke-width:2px,color:#fff
     classDef main opacity:0.9,fill:#059,stroke:#09F,stroke-width:4px,color:#fff
     classDef bugged opacity:0.9,fill:#933,stroke:#800,stroke-width:2px,color:#fff
-
 ```
 
 ### Nodes
 
-- **/v4l2_camera**
-  - カメラ画像を生成
-  - Raw Image: [v4l2_camera](https://index.ros.org/p/v4l2_camera/)
-  - Compressed Image: [image_transport](https://wiki.ros.org/image_transport)
+- **/v4l2_camera**:
+
+  カメラ画像を生成するためのノード。ROS2 の [v4l2_camera](https://index.ros.org/p/v4l2_camera/) パッケージを利用しています。
+  また、カメラ画像を JPEG 圧縮するための [image_transport](https://wiki.ros.org/image_transport) パッケージをプラグインとして利用しています。
+
   - topics:
     - publication: `/image_raw/compressed`
-- **/image_republisher**
-  - TB3 <--> Mini-PC のユニキャスト通信を削減するためのプロキシ
-  - Mini-PC (Requester) 上で実行
+
+- **/image_republisher**:
+
+  TB3 から Mini-PC への画像転送を効率化するためのプロキシ。TB3 からの画像トピックを受信し、Mini-PC 内で再配信する。
+  これにより、TB3 <--> Mini-PC 間のユニキャストを 1 本にし、Raspberry Pi の負荷を軽減します。
+
   - topics:
     - subscription: `/image_raw/compressed`
     - publication: `/out/compressed`
-- **/pose_requester**
-  - MEC-RM に Job を生成
+
+- **/pose_requester**:
+
+  MEC-RM に対して、OpenPose によるポーズ推定をリクエストするためのノードです。
+
   - topics:
     - subscription: `/out/compressed`
     - publication: `/pose`
-- **/display**
-  - 画像とポーズを表示
+
+- **/display**:
+  
+  画像とポーズのキーポイントをマージして表示するためのノードです。
+  将来的に、マージプロセスを分離し、`rqt_image_view` などの既存のツールを利用するように変更する予定です。
+
   - topics:
     - subscription: `/out/compressed`
     - subscription: `/pose`
 
-## Future Work
+### Settings
+
+[compose.yml](../compose.yml) から、ある程度の設定が可能となっています。
+
+## MEC-RM
+
+
+
+### Future Work
 
 ```mermaid
 flowchart LR
@@ -92,11 +110,15 @@ flowchart LR
     classDef bugged opacity:0.9,fill:#933,stroke:#800,stroke-width:2px,color:#fff
 ```
 
-- **/renderer**
-  - 画像にポーズを描画
+- **/renderer**:
+
+  画像とポーズのキーポイントをマージして、新しい画像を生成するノードです。
+  このノードにより、任意のツールで画像を表示することが可能となります。
+
   - topics:
     - subscription: `/pose`
     - publication: `/rendered_image`
-- **/display**
-  - [`rqt_image_view`](https://wiki.ros.org/rqt_image_view) による画像とポーズの表示
-  - 画像表示は既存のパッケージを利用するように変更
+
+- **/display**:
+
+  [`rqt_image_view`](https://wiki.ros.org/rqt_image_view) による画像とポーズの表示を行うようにします。

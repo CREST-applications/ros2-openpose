@@ -2,7 +2,7 @@ services:
   ros2-openpose:
     build: .
     tty: true
-    privileged: true
+    privileged: true # for camera device
     network_mode: host
     environment:
       # don't modify
@@ -19,7 +19,6 @@ services:
       - PLEIADES_HOST=http://localhost/api/v0.5/
       - MAX_JOB=5
       - POSE_FPS=10
-      # - DELAY=0.2 # for delayer
     volumes:
       - .:/root/ros2_ws
 
@@ -35,8 +34,7 @@ services:
         source /opt/ros/humble/setup.bash &&
         colcon build --symlink-install &&
         source ./install/setup.bash &&
-        # ros2 launch launcher without_camera.py
-        ros2 launch launcher with_camera.py
-        # ros2 launch launcher launch.py
-        # ros2 launch launcher delay_launch.py
+        ros2 launch launcher without_camera.py # for demo with TB3
+        # ros2 launch launcher with_camera.py # for demo without TB3
+        # ros2 launch launcher launch.py # for future work
       "
