@@ -24,9 +24,5 @@ def generate_launch_description():
                 executable="main",
                 remappings=[("/camera", "/proxy/compressed")],
             ),
-            Node(
-                package="display",
-                executable="main",
-            ),
         ]
     )
