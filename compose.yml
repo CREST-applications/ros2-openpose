@@ -24,8 +24,6 @@ services:
       - MAX_JOB=5
       - POSE_FPS=10
     volumes:
-      - .:/home/user/ros2_ws
-
       # for GUI
       - /tmp/.X11-unix:/tmp/.X11-unix
       - ~/.Xauthority:/home/user/.Xauthority
@@ -33,15 +31,15 @@ services:
       # for mDNS
       - /var/run/dbus:/var/run/dbus
       - /var/run/avahi-daemon/socket:/var/run/avahi-daemon/socket
+
+      - .:/home/user/ros2_ws
     devices:
       - /dev/video0:/dev/video0
     working_dir: /home/user/ros2_ws
-    command: >
-      /bin/bash -c "
-        source /opt/ros/humble/setup.bash &&
+    command:
+      - /bin/bash
+      - -c
+      - |
         colcon build --symlink-install &&
         source ./install/setup.bash &&
-        # ros2 launch launcher without_camera.py # for demo with TB3
-        # ros2 launch launcher with_camera.py # for demo without TB3
-        ros2 launch launcher launch.py # for future work
-      "
+        ros2 launch launcher launch.py
