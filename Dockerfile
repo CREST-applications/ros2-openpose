@@ -16,13 +16,19 @@ RUN pip3 install \
     uv \
     opencv-python \
     cv_bridge \
-    pydantic \
     janus
 
-COPY ./entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+COPY ./pypleiades /usr/local/lib/pleiades/pypleiades
+RUN uv pip install --system -e /usr/local/lib/pleiades/pypleiades
 
-RUN apt-get install -y curl
+ARG UID
+ARG GID
 
-ENTRYPOINT ["/entrypoint.sh"]
-CMD ["/bin/bash"]
+RUN groupadd -g ${GID} user && \
+    useradd -m -s /bin/bash -u ${UID} -g ${GID} user
+
+RUN echo "source /opt/ros/humble/setup.bash" >> /home/user/.bashrc
+RUN usermod -a -G video user
+
+USER user
+WORKDIR /home/user/

@@ -1,8 +1,12 @@
 services:
-  ros2-openpose:
-    build: .
+  dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - UID=1001
+        - GID=1001
     tty: true
-    privileged: true # for camera device
     network_mode: host
     environment:
       # don't modify
@@ -16,25 +20,28 @@ services:
       - DISPLAY_SCALE=1.5
 
       # requester settings
-      - PLEIADES_HOST=http://localhost/api/v0.5/
+      - PLEIADES_HOST=http://desktop.local/api/v0.5/
       - MAX_JOB=5
       - POSE_FPS=10
     volumes:
-      - .:/root/ros2_ws
+      - .:/home/user/ros2_ws
 
       # for GUI
       - /tmp/.X11-unix:/tmp/.X11-unix
+      - ~/.Xauthority:/home/user/.Xauthority
 
       # for mDNS
       - /var/run/dbus:/var/run/dbus
       - /var/run/avahi-daemon/socket:/var/run/avahi-daemon/socket
-    working_dir: /root/ros2_ws
-    command: >
-      /bin/bash -c "
-        source /opt/ros/humble/setup.bash &&
-        colcon build --symlink-install &&
-        source ./install/setup.bash &&
-        ros2 launch launcher without_camera.py # for demo with TB3
-        # ros2 launch launcher with_camera.py # for demo without TB3
-        # ros2 launch launcher launch.py # for future work
-      "
+    devices:
+      - /dev/video0:/dev/video0
+    working_dir: /home/user/ros2_ws
+    # command: >
+      # /bin/bash -c "
+      #   source /opt/ros/humble/setup.bash &&
+      #   colcon build --symlink-install &&
+      #   source ./install/setup.bash &&
+      #   # ros2 launch launcher without_camera.py # for demo with TB3
+      #   ros2 launch launcher with_camera.py # for demo without TB3
+      #   # ros2 launch launcher launch.py # for future work
+      # "
