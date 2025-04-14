@@ -2,32 +2,13 @@ services:
   dev:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: ./Dockerfile
       args:
         - UID=1001
         - GID=1001
     tty: true
     network_mode: host
-    environment:
-      # don't modify
-      - DISPLAY=$DISPLAY
-
-      # ROS2 settings
-      - ROS_DOMAIN_ID=33
-
-      # display settings
-      - POSE_THRESHOLD=0.45
-      - DISPLAY_SCALE=1.5
-
-      # requester settings
-      - PLEIADES_HOST=http://desktop.local/api/v0.5/
-      - MAX_JOB=5
-      - POSE_FPS=10
     volumes:
-      # for GUI
-      - /tmp/.X11-unix:/tmp/.X11-unix
-      - ~/.Xauthority:/home/user/.Xauthority
-
       # for mDNS
       - /var/run/dbus:/var/run/dbus
       - /var/run/avahi-daemon/socket:/var/run/avahi-daemon/socket
@@ -35,11 +16,17 @@ services:
       - .:/home/user/ros2_ws
     devices:
       - /dev/video0:/dev/video0
+    environment:
+      - ROS_DOMAIN_ID=33
+      - PLEIADES_HOST=http://desktop.local/api/v0.5/
+      - MAX_JOB=5
+      - POSE_FPS=10
+      - POSE_THRESHOLD=0.45
     working_dir: /home/user/ros2_ws
     command:
       - /bin/bash
       - -c
       - |
-        colcon build --symlink-install &&
-        source ./install/setup.bash &&
+        colcon build --symlink-install
+        source ./install/setup.bash
         ros2 launch launcher launch.py

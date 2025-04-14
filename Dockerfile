@@ -1,23 +1,20 @@
-FROM ros:humble
+ARG ROS_DISTRO=humble
 
-RUN mkdir -p /root/ros2_ws/src
-RUN echo "source /opt/ros/humble/setup.bash" >> /root/.bashrc
+FROM ros:${ROS_DISTRO}-ros-base
 
 RUN apt-get update && apt-get install -y \
+    avahi-utils \
     python3-pip \
     libopencv-dev \
-    avahi-utils \
-    ros-humble-v4l2-camera \
-    ros-humble-rqt-image-view \
-    ros-humble-image-transport \
-    ros-humble-image-transport-plugins
+    ros-${ROS_DISTRO}-image-transport \
+    ros-${ROS_DISTRO}-image-transport-plugins
 
-RUN pip3 install \
-    uv \
+RUN pip install \
     opencv-python \
     cv_bridge \
     janus
 
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 COPY ./pypleiades /usr/local/lib/pleiades/pypleiades
 RUN uv pip install --system -e /usr/local/lib/pleiades/pypleiades
 
@@ -27,7 +24,7 @@ ARG GID
 RUN groupadd -g ${GID} user && \
     useradd -m -s /bin/bash -u ${UID} -g ${GID} user
 
-RUN echo "source /opt/ros/humble/setup.bash" >> /home/user/.bashrc
+RUN echo "source /opt/ros/${ROS_DISTRO}/setup.bash" >> /home/user/.bashrc
 RUN usermod -a -G video user
 
 USER user
