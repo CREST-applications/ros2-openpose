@@ -4,8 +4,8 @@ services:
       context: .
       dockerfile: ./Dockerfile
       args:
-        - UID=1001
-        - GID=1001
+        - UID=1000
+        - GID=1000
     tty: true
     network_mode: host
     volumes:
@@ -14,8 +14,6 @@ services:
       - /var/run/avahi-daemon/socket:/var/run/avahi-daemon/socket
 
       - .:/home/user/ros2_ws
-    devices:
-      - /dev/video0:/dev/video0
     environment:
       - ROS_DOMAIN_ID=33
       - PLEIADES_HOST=http://desktop.local/api/v0.5/
